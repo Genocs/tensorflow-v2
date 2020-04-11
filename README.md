@@ -2,9 +2,6 @@
 
 This repo is a tensorflow course starting from scratch.
 
-Python and Machine Learning
-The aims of the repo is to train myself in order to use python as the prototyping language implementing solution using Machine Learning and Deep Learning algorithms. The applied fields are NLP (Natural Language Processing) and Image Processing.
-
 ## Prerequisites
 
 Python environment must be present and correctly configured in order o use these exercises.
