@@ -1,5 +1,4 @@
 # tensorflow-v2
-====
 
 This repo is a tensorflow course starting from scratch.
 
@@ -40,10 +39,10 @@ localhost:6006
 
 ## The exercises
 Introduction
-- 01-helloworld.py: It is a simple check to evaluate if Tensorflow is correctly installed
-- 02-helloworld-gpu.py: It is a simple check to evaluate if Tensorflow could be executed on GPU (Nvidia Cuda ready GPU is required)
-- 03-constants.py: It explain how Tensorflow manages the the tensors. A matmul example is executed as well.
+- **01-helloworld.py**: It is a simple check to evaluate if Tensorflow is correctly installed.
+- **02-helloworld-gpu.py**: It is a simple check to evaluate if Tensorflow could be executed on GPU (Nvidia Cuda ready GPU is required).
+- **03-constants.py**: It explain how Tensorflow manages the the tensors. A matmul example is executed as well.
 The models
-- 04-linear-model.py: The first linear model.
-- 05-tensorboard.py: The first linear model with Tensorboard.
-- 06-linear-model-class.py: The first linear model with Tensorboard embedded in a Python class.
+- **04-linear-model.py**: The first linear model.
+- **05-tensorboard.py**: The first linear model with Tensorboard.
+- **06-linear-model-class.py**: The first linear model with Tensorboard embedded in a Python class.
