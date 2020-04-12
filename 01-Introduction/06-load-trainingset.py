@@ -22,14 +22,16 @@ from tensorflow.keras import layers
 # Import numpy
 import numpy as np
 
-# Import pandas to read csv files
-import pandas as pd
-
 # Import utility libraries
 import os
 import pathlib
 import datetime
 
+# Import pandas to read csv files
+import pandas as pd
+
+# Check the Tensorflow version
+print('Tensorflow version: %s' % tf.__version__)
 
 """
 *** This function return a set of samples and label
@@ -62,7 +64,7 @@ def training_the_model():
             log_dir=log_dir, histogram_freq=1)
     ]  
 
-    with tf.device('/GPU:0'):      
+    with tf.device('/GPU:0'):
 
         # Define the model type
         model = tf.keras.Sequential()

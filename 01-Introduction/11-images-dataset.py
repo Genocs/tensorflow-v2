@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jan 28 22:00:56 2020
+Created on Sun Apr 12 10:40:00 2020
 
-@author: Giovanni
+@author:       Genocs
+@description:  In this exercise we are going to use load standard dataset
+               stored as images folder
 """
+
+
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
 import tensorflow as tf
+
 # Import Keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
@@ -15,15 +20,19 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from tensorflow.keras import datasets, layers, models
 
-# Helper libraries
+# Import numpy
 import numpy as np
+
+# Import Math plot lib
 import matplotlib.pyplot as plt
 
 import IPython.display as display
 from PIL import Image
 import os
-
 import pathlib
+
+# Check the Tensorflow version
+print('Tensorflow version: %s' % tf.__version__)
 
 """
 Get a public trainingset 
@@ -80,6 +89,8 @@ training_label_classes = np.asarray(vector_classes_list, dtype=np.float32)
 
 #plotImages(train_images[:5])
 
+
+# Define the model type
 model = models.Sequential()
 model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_WIDTH, IMG_HEIGHT, CHANNELS)))
 model.add(layers.MaxPooling2D((2, 2)))
@@ -90,14 +101,15 @@ model.add(layers.Flatten())
 model.add(layers.Dense(64, activation='relu'))
 model.add(layers.Dense(5))
 
+# Compile the model
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(
-                  from_logits=True),
+              from_logits=True),
               metrics=['accuracy'])
 
-# instruct the model
+# Fit the model
 history = model.fit(train_images, training_label_classes, epochs=25)
 
-# evalualute
+# Evaluate it
 print('predict: %s' % model.predict(train_images[0:2]))
 print('labels: %s' % training_label_classes[0:2])

@@ -29,9 +29,6 @@ import datetime
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
 
-# Check the GPU device availability
-print('Num GPUs Available: %d' %
-      len(tf.config.experimental.list_physical_devices('GPU')))
 
 # Define the feature and the label
 model_data = np.array([-1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0], dtype=float)

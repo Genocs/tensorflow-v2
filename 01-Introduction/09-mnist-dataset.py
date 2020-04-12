@@ -1,38 +1,46 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jan 23 22:13:49 2020
+Created on Sun Apr 12 10:00:00 2020
 
-@author: Giovanni
+@author:       Genocs
+@description:  In this exercise we are going to use the hello-world MNIST dataset 
 """
+
+
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
 import tensorflow as tf
+
 # Import Keras
 from tensorflow import keras
+
 # Import Keras layers
 from tensorflow.keras import layers
 
-# Helper libraries
+# Import numpy
 import numpy as np
+
+# Import Math plot lib
 import matplotlib.pyplot as plt
 
-# Check the Tensorflow version (should be 2.1.0)
+# Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
 
-# Check the GPU device availability
-print('Num GPUs Available: %d' %
-      len(tf.config.experimental.list_physical_devices('GPU')))
-
-
+# Get the dataset
 mnist = tf.keras.datasets.fashion_mnist
 
+# Load the feature and label, splitted by training_set and test_set
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+# Normalize pixel values to be between 0 and 1
 x_train, x_test = x_train / 255.0, x_test / 255.0
 
+# Simple logdump
 print('x_train: %s' % x_train)
 print('y_train: %s' % y_train)
 
+# Use the matplotlib to sho the first trainingset sample
 plt.figure()
 plt.imshow(x_train[0])
 plt.colorbar()
@@ -56,16 +64,21 @@ model.add(layers.Dropout(0.2))
 # Add the last output layer
 model.add(layers.Dense(10, activation='softmax'))
 
-
+# Compile the model
 model.compile(optimizer=tf.keras.optimizers.Adam(0.01),
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
+# Fit the model
 model.fit(x_train, y_train, epochs=5)
 
-model.evaluate(x_test,  y_test, verbose=2)
+# Evaluate it
+model.evaluate(x_test, y_test, verbose=2)
 
+# Run the prediction on test_set
 predictions = model.predict(x_test)
 
-print(predictions[0])
-print(predictions[1])
+# Dump the predictions
+num_bins = 10
+plt.hist(predictions[0], num_bins, facecolor='blue', alpha=0.5)
+plt.show()

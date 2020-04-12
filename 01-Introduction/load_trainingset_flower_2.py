@@ -1,35 +1,39 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jan 28 22:00:56 2020
+Created on Sun Apr 12 10:45:00 2020
 
-@author: Giovanni
+@author:       Genocs
+@description:  In this exercise we are going to use load standard dataset
+               stored as images folder
 """
+
+
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+# Import TensorFlow
 import tensorflow as tf
 
+# Import Keras
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from tensorflow.keras import datasets, layers, models
 
-# Helper libraries
+# Import numpy
 import numpy as np
+
+# Import Math plot lib
 import matplotlib.pyplot as plt
 
 import IPython.display as display
 from PIL import Image
 import os
-
 import pathlib
 
-# Check the Tensorflow version (should be 2.1.0)
+# Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
 
-# Check the GPU device availability
-print('Num GPUs Available: %d' %
-      len(tf.config.experimental.list_physical_devices('GPU')))
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
@@ -133,13 +137,14 @@ model.add(layers.Flatten())
 model.add(layers.Dense(64, activation='relu'))
 model.add(layers.Dense(5))
 
+# Compile the model
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(
-                  from_logits=True),
+              from_logits=True),
               metrics=['accuracy'])
 
-# instruct the model
+# Fit the model
 history = model.fit(train_images, train_labels, epochs=10)
 
-# evalualute
+# Evaluate it
 # print(model.predict([5.0]))

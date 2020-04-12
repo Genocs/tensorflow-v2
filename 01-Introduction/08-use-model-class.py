@@ -22,15 +22,18 @@ from tensorflow.keras import layers
 # Import numpy
 import numpy as np
 
-# Import pandas to read csv files
-import pandas as pd
-
 # Import utility libraries
 import os
 import pathlib
 import datetime
 
+# Import pandas to read csv files
+import pandas as pd
+
 from linear_model import LinearModel
+
+# Check the Tensorflow version
+print('Tensorflow version: %s' % tf.__version__)
 
 """
 *** This function return a set of samples and label

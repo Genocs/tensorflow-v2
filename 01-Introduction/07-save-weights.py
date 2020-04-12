@@ -22,13 +22,16 @@ from tensorflow.keras import layers
 # Import numpy
 import numpy as np
 
-# Import pandas to read csv files
-import pandas as pd
-
 # Import utility libraries
 import os
 import pathlib
 import datetime
+
+# Import pandas to read csv files
+import pandas as pd
+
+# Check the Tensorflow version
+print('Tensorflow version: %s' % tf.__version__)
 
 """
 *** This function return a set of samples and label
@@ -76,7 +79,7 @@ def run_training(model, samples, labels):
             log_dir=log_dir, histogram_freq=1)
     ]
 
-    with tf.device('/GPU:0'):    
+    with tf.device('/GPU:0'):
        # Instruct the model
         model.fit(samples, labels, callbacks=callbacks, epochs=5)
         return model
