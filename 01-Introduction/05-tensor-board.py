@@ -6,7 +6,6 @@ Created on Sat Apr 11 16:20:00 2020
 @description:  Simple linear model y = mx + b. The pipeline logs are written using tensorflow 
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
@@ -29,10 +28,10 @@ import datetime
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
 
-
 # Define the feature and the label
 model_data = np.array([-1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0], dtype=float)
-model_value = np.array([-3.0, -1.0, 1.0, 3.0, 5.0, 7.0, 9.0, 11.0], dtype=float)
+model_value = np.array([-3.0, -1.0, 1.0, 3.0, 5.0, 7.0, 9.0, 11.0],
+                       dtype=float)
 
 log_path = 'c:\\log\\'
 # Tensorboard trace
@@ -40,8 +39,7 @@ log_dir = log_path + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 
 callbacks = [
     # Write TensorBoard logs to `log_dir` directory
-    tf.keras.callbacks.TensorBoard(
-        log_dir=log_dir, histogram_freq=1)
+    tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 ]
 
 with tf.device('/GPU:0'):
@@ -52,7 +50,7 @@ with tf.device('/GPU:0'):
     # Adds a densely-connected layer with 1 unit to the model:
     model.add(layers.Dense(units=1, input_shape=[1]))
 
-	# Build the model pipeline
+    # Build the model pipeline
     model.compile(optimizer='sgd',
                   loss='mean_squared_error',
                   metrics=['accuracy'])

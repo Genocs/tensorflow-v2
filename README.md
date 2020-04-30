@@ -69,3 +69,22 @@ conda activate tensorflow
 Open a web browser
 
 localhost:6006
+
+# Installed library
+- pytesseract https://anaconda.org/auto/pytesseract
+
+pip install pytesseract
+
+
+
+# Tips and Tricks
+Run following commands before run jupyter at 
+https://github.com/tensorflow/models
+
+https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
+
+``` cmd
+conda install git
+then:
+pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
+```

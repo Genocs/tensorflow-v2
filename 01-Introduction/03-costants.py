@@ -6,23 +6,18 @@ Created on Sat Apr 11 15:40:00 2020
 @description:  Simple contants tensor and basic matrix multiply
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
 import tensorflow as tf
 
-
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
-
-
-
-# Create a tensor as a vector (one dimension) 
+# Create a tensor as a vector (one dimension)
 vector_a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
 print(vector_a)
 
-# Create a tensor as a matrix (two dimensions) layout: 3x2 
+# Create a tensor as a matrix (two dimensions) layout: 3x2
 matrix_b = tf.constant([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
 print(matrix_b)
 

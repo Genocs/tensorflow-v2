@@ -6,13 +6,10 @@ Created on Sat Apr 11 15:30:00 2020
 @description:  This test check-out if tensorflow is installed correctly
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
 import tensorflow as tf
 
-
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
-

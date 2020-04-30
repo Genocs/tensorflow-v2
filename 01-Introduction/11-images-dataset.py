@@ -87,8 +87,6 @@ for v in vector_classes:
 training_label_classes = np.asarray(vector_classes_list, dtype=np.float32)
 
 
-#plotImages(train_images[:5])
-
 
 # Define the model type
 model = models.Sequential()
@@ -111,5 +109,10 @@ model.compile(optimizer='adam',
 history = model.fit(train_images, training_label_classes, epochs=25)
 
 # Evaluate it
-print('predict: %s' % model.predict(train_images[0:2]))
-print('labels: %s' % training_label_classes[0:2])
+predictions = model.predict(train_images[0:2])
+print('predicts: %s' % predictions)
+print('predict[0]: %s' % CLASS_NAMES[np.argmax(predictions[0])])
+print('predict[1]: %s' % CLASS_NAMES[np.argmax(predictions[1])])
+
+plotImages(train_images[:2])
+

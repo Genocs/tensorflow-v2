@@ -6,7 +6,6 @@ Created on Sun Apr 12 10:00:00 2020
 @description:  In this exercise we are going to use the hello-world MNIST dataset 
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
@@ -46,7 +45,6 @@ plt.imshow(x_train[0])
 plt.colorbar()
 plt.grid(False)
 plt.show()
-
 
 # Define the model type
 model = tf.keras.Sequential()

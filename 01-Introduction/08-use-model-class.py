@@ -7,7 +7,6 @@ Created on Sat Apr 11 16:20:00 2020
                using Pandas dataframe
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
@@ -34,16 +33,17 @@ from linear_model import LinearModel
 
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
-
 """
 *** This function return a set of samples and label
 """
+
+
 def load_trainingset():
     # Load the data using pandas
     samples = pd.read_csv(".\\data\\samples.csv", delimiter=',', header=None)
     labels = pd.read_csv(".\\data\\labels.csv", delimiter=',', header=None)
     samples = samples.to_numpy()
-    labels = labels.to_numpy()      
+    labels = labels.to_numpy()
     print(samples[0])
     print(labels[0])
     return (samples[0], labels[0])
@@ -52,9 +52,11 @@ def load_trainingset():
 """
 *** The entrypoint function
 """
+
+
 def main(args=""):
     print("main started")
-    
+
     samples, labels = load_trainingset()
 
     # Build a model using a class, and after the compiling start the training

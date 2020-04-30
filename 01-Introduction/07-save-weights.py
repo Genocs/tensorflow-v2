@@ -7,7 +7,6 @@ Created on Sat Apr 11 16:20:00 2020
                using Pandas dataframe
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
@@ -32,16 +31,17 @@ import pandas as pd
 
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
-
 """
 *** This function return a set of samples and label
 """
+
+
 def load_trainingset():
     # Load the data using pandas
     samples = pd.read_csv(".\\data\\samples.csv", delimiter=',', header=None)
     labels = pd.read_csv(".\\data\\labels.csv", delimiter=',', header=None)
     samples = samples.to_numpy()
-    labels = labels.to_numpy()      
+    labels = labels.to_numpy()
     print(samples[0])
     print(labels[0])
     return (samples[0], labels[0])
@@ -50,9 +50,11 @@ def load_trainingset():
 """
 *** The entrypoint function
 """
+
+
 def main(args=""):
     print("main started")
-    
+
     samples, labels = load_trainingset()
 
     # Build the model
@@ -68,6 +70,8 @@ def main(args=""):
 """
 *** This function return a set of samples and label
 """
+
+
 def run_training(model, samples, labels):
     log_path = 'c:\\log\\'
 
@@ -75,12 +79,11 @@ def run_training(model, samples, labels):
     log_dir = log_path + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     callbacks = [
         # Write TensorBoard logs to `log_dir` directory
-        tf.keras.callbacks.TensorBoard(
-            log_dir=log_dir, histogram_freq=1)
+        tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
     ]
 
     with tf.device('/GPU:0'):
-       # Instruct the model
+        # Instruct the model
         model.fit(samples, labels, callbacks=callbacks, epochs=5)
         return model
 
@@ -88,6 +91,8 @@ def run_training(model, samples, labels):
 """
 *** This is the model that we are using
 """
+
+
 def build_model():
 
     # It defines the model type
@@ -104,9 +109,12 @@ def build_model():
 
     return model
 
+
 """
 *** This function loadad the model if exist, otherwise start a new one trainig and the save the weights
 """
+
+
 def instruct_model(model, samples, labels):
     model_dir = ".\\model\\"
 

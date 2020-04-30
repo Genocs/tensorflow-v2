@@ -36,7 +36,9 @@ print('Tensorflow version: %s' % tf.__version__)
 
 
 AUTOTUNE = tf.data.experimental.AUTOTUNE
-
+"""
+Get a public trainingset 
+"""
 data_dir = tf.keras.utils.get_file(origin='https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz',
                                    fname='flower_photos', untar=True)
 data_dir = pathlib.Path(data_dir)
@@ -110,6 +112,7 @@ image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255)
 
 BATCH_SIZE = 32
+CHANNELS = 3
 IMG_HEIGHT = 32
 IMG_WIDTH = 32
 STEPS_PER_EPOCH = np.ceil(image_count/BATCH_SIZE)
@@ -127,8 +130,11 @@ print('train_labels: %s' % train_labels)
 
 plotImages(train_images[:5])
 
+
+
+# Define the model type
 model = models.Sequential()
-model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
+model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_WIDTH, IMG_HEIGHT, CHANNELS)))
 model.add(layers.MaxPooling2D((2, 2)))
 model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(layers.MaxPooling2D((2, 2)))

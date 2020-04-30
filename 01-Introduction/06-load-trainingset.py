@@ -7,7 +7,6 @@ Created on Sat Apr 11 16:20:00 2020
                using Pandas dataframe
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
@@ -32,16 +31,17 @@ import pandas as pd
 
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
-
 """
 *** This function return a set of samples and label
 """
+
+
 def load_trainingset():
     # Load the data using pandas
     samples = pd.read_csv(".\\data\\samples.csv", delimiter=',', header=None)
     labels = pd.read_csv(".\\data\\labels.csv", delimiter=',', header=None)
     samples = samples.to_numpy()
-    labels = labels.to_numpy()      
+    labels = labels.to_numpy()
     print(samples[0])
     print(labels[0])
     return (samples[0], labels[0])
@@ -50,6 +50,8 @@ def load_trainingset():
 """
 *** This function run the model
 """
+
+
 def training_the_model():
     # load the trainingset from csv file
     model_data, model_value = load_trainingset()
@@ -60,9 +62,8 @@ def training_the_model():
 
     callbacks = [
         # Write TensorBoard logs to `log_dir` directory
-        tf.keras.callbacks.TensorBoard(
-            log_dir=log_dir, histogram_freq=1)
-    ]  
+        tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+    ]
 
     with tf.device('/GPU:0'):
 
@@ -72,10 +73,10 @@ def training_the_model():
         # Adds a densely-connected layer with 1 unit to the model:
         model.add(layers.Dense(units=1, input_shape=[1]))
 
-	    # Build the model pipeline
+        # Build the model pipeline
         model.compile(optimizer='sgd',
-                    loss='mean_squared_error',
-                    metrics=['accuracy'])
+                      loss='mean_squared_error',
+                      metrics=['accuracy'])
 
         # Instruct the code
         model.fit(model_data, model_value, callbacks=callbacks, epochs=500)
@@ -86,9 +87,12 @@ def training_the_model():
         # Evaluate a sample using the model
         print('The predicted result is: %f' % model.predict([70.0]))
 
+
 """
 *** The entrypoint function
 """
+
+
 def main(args=""):
     print("main started")
     training_the_model()
