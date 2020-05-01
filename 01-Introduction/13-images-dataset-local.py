@@ -29,6 +29,9 @@ import numpy as np
 # Import Math plot lib
 import matplotlib.pyplot as plt
 
+# Import pandas to read csv files
+import pandas as pd
+
 import IPython.display as display
 from PIL import Image
 import os
@@ -163,6 +166,7 @@ def get_traingset(data_path):
 
     return train_images, training_label_classes, CLASS_NAMES
 
+
 # Load the image to inspect from local filesystem
 def get_images(data_path):
     # Load image from local file system
@@ -189,7 +193,55 @@ def get_images(data_path):
     return images, labels
 
 
-def scan_local(data_path, log_path='c:\\log\\'):
+def load_image(data_path):
+    IMG_HEIGHT = 64
+    IMG_WIDTH = 64
+
+    #Load image by OpenCV
+    img = cv2.imread(data_path)
+
+    #Resize to respect the input_shape
+    inp = cv2.resize(img, (IMG_HEIGHT, IMG_HEIGHT))
+
+    #Convert img to RGB
+    rgb = cv2.cvtColor(inp, cv2.COLOR_BGR2RGB)
+
+    #Is optional but i recommend (float convertion and convert img to tensor image)
+    rgb_tensor = tf.convert_to_tensor(rgb, dtype=tf.float32)
+
+    #Add dims to rgb_tensor
+    rgb_tensor = tf.expand_dims(rgb_tensor, 0)
+
+    #Now you can use rgb_tensor to predict label for exemple :
+
+    #Predict label
+    return rgb_tensor
+
+
+def save_result(predictions):
+    result_filename = '.\\result.csv'
+
+    CLASS_NAMES = np.array(
+        ['globalblue_f', 'globalblue_m', 'globalblue_t', 'others', 'planet'])
+
+    df = pd.DataFrame(columns=['Prediction', 'Scores'])
+
+    if (os.path.exists(result_filename)):
+        df = pd.read_csv(result_filename)
+
+    df = df.append(
+        {
+            'Prediction': CLASS_NAMES[np.argmax(predictions[0])],
+            'Scores': predictions[0]
+        },
+        ignore_index=True)
+
+    df.to_csv(result_filename, index=False)
+    print('predict[0]: %s' % CLASS_NAMES[np.argmax(predictions[0])])
+    print(predictions)
+
+
+def scan_local(data_path, log_path='c:/log/'):
     model_weights_path = ".\\model\\weights.tf"
 
     writer = tf.summary.create_file_writer(log_path)
@@ -205,7 +257,8 @@ def scan_local(data_path, log_path='c:\\log\\'):
     if (exist_weights()):
         print('Found model weights, NO Training required. Loading...')
         model.load_weights(model_weights_path)
-        print('Model weights LOADED SUCCESSFULLY...  go straight to evaluate!!')
+        print(
+            'Model weights LOADED SUCCESSFULLY...  go straight to evaluate!!')
     else:
         train_images, _labels, _CLASS_NAMES = get_traingset(data_path)
         model = run_training(model, train_images, _labels)
@@ -213,22 +266,18 @@ def scan_local(data_path, log_path='c:\\log\\'):
         model.save_weights(model_weights_path)
         print('Model weights SAVED SUCCESSFULLY')
 
-    # Evaluate a sample using the model
-    evaluate_images, labels = get_images('E:/Data/UTU/evaluate')
+    CLASS_NAMES = np.array(
+        ['globalblue_f', 'globalblue_m', 'globalblue_t', 'others', 'planet'])
+
+    evaluate_images = load_image('E:\\Data\\UTU\\evaluate\\eval\\1.jpg')
     predictions = model.predict(evaluate_images)
 
-
-    CLASS_NAMES = np.array(['globalblue_f', 'globalblue_m', 'globalblue_t', 'others', 'planet'])
-    print(predictions)
-    print('predict[0]: %s' % CLASS_NAMES[np.argmax(predictions[0])])
-    print('predict[1]: %s' % CLASS_NAMES[np.argmax(predictions[1])])
-    print('predict[2]: %s' % CLASS_NAMES[np.argmax(predictions[2])])
-
-    plotImages(evaluate_images)
+    #save prediction on file
+    save_result(predictions)
 
 
 def main():
-    scan_local(data_path='E:/Data/UTU/directinvoice_img')
+    scan_local(data_path='E:\\Data\\UTU\\directinvoice_img')
 
 
 if __name__ == '__main__':
