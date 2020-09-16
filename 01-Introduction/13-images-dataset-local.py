@@ -264,6 +264,9 @@ def scan_local(data_path, log_path='c:/log/'):
         model = run_training(model, train_images, _labels)
         print('Model weights SAVING... ')
         model.save_weights(model_weights_path)
+        # Save the model using the tensorflow library, 
+        # so I can use Tensorflow lite Converter. Check the next step
+        tf.saved_model.save(model, model_weights_path)
         print('Model weights SAVED SUCCESSFULLY')
 
     CLASS_NAMES = np.array(
