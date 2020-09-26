@@ -53,28 +53,57 @@ Please check:
 
 
 
-## Miscellaneous
 
-#### How Activate Tensorboard
+##How to install from scratch
 
-Create a log folder like **c:\log**
 
-Start console prompt and activate the correct conda environment
+Nvidia GPU support
+cuda_10.1.105_418.96_win10.exe
+cudnn-10.1-windows10-x64-v7.6.5.32.zip
+python-3.7.9.exe (DO not use python-3.8.5.exe)
 
+- Check Nvidia cuda version
 ``` cmd
+nvcc --version
+```
+Checked version:
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2019 NVIDIA Corporation
+Built on Fri_Feb__8_19:08:26_Pacific_Standard_Time_2019
+Cuda compilation tools, release 10.1, V10.1.105
+
+
+- Preliminary checks
+``` cmd
+python --version
+conda --version
+pip3 --version
+```
+
+Checked version:
+Python 3.7 (3.7.9)
+Anaconda 4.8.5
+pip 20.1.1
+
+
+- Create a log folder like **c:\log**
+
+- Create the conda environment
+``` cmd
+conda create --name tensorflow python=3.7
 conda activate tensorflow
+conda install git
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+- Run tensorboard
+``` cmd
 (tensorflow) tensorboard --logdir=c:\log --port 6006
 ```
 
 Open a web browser
-
 localhost:6006
-
-# Installed library
-- pytesseract https://anaconda.org/auto/pytesseract
-
-pip install pytesseract
-
 
 
 # Tips and Tricks
