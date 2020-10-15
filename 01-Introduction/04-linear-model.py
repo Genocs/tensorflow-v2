@@ -33,7 +33,7 @@ with tf.device('/GPU:0'):
     # Define the model type
     model = tf.keras.Sequential()
 
-    # Adds a densely-connected layer with 1 unit to the model:
+    # Add a densely-connected layer with 1 unit
     model.add(layers.Dense(units=1, input_shape=[1]))
 
     # Build the model pipeline
@@ -41,11 +41,11 @@ with tf.device('/GPU:0'):
                   loss='mean_squared_error',
                   metrics=['accuracy'])
 
-    # Instruct the code
-    model.fit(model_data, model_value, epochs=500)
-
     # Display the model structure
-    model.summary()
+    model.summary()                  
+
+    # Instruct the code
+    model.fit(model_data, model_value, epochs=50)
 
     # Evaluate a sample using the model
     print('The predicted result is: %f' % model.predict([70.0]))

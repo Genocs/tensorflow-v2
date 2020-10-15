@@ -3,7 +3,8 @@
 Created on Sat Apr 11 16:20:00 2020
 
 @author:       Genocs
-@description:  In this exercise we are going to load the trainingset from a csv file
+@description:  Same exercise as the previos one, the model is defined in a class.
+               In this exercise we are going to load the trainingset from a csv file
                using Pandas dataframe
 """
 
@@ -59,13 +60,13 @@ def main(args=""):
 
     samples, labels = load_trainingset()
 
-    # Build a model using a class, and after the compiling start the training
+    # Build a model using a class, and after the compilation we'll start the training
     model = LinearModel("my_model")
     model.compile_model()
     model.training(samples, labels)
 
     # Evaluate a sample using the model
-    print(model.predict([3.0]))
+    print(model.predict([30.0]))
 
     print("main finish")
 

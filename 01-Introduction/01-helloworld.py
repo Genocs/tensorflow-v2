@@ -3,7 +3,7 @@
 Created on Sat Apr 11 15:30:00 2020
 
 @author:       Genocs
-@description:  This test check-out if tensorflow is installed correctly
+@description:  This test check if tensorflow is installed correctly
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals

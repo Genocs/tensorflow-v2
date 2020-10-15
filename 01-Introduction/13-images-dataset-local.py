@@ -82,7 +82,7 @@ def build_model():
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=['accuracy'])
 
-    # print the model structure
+    # Print the model structure
     model.summary()
 
     return model
@@ -91,7 +91,7 @@ def build_model():
 def run_training(model, samples, labels):
     log_path = 'c:\\log\\'
 
-    # tensorboard trace
+    # Tensorboard trace
     log_dir = log_path + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir,
                                                           histogram_freq=1)
@@ -101,7 +101,6 @@ def run_training(model, samples, labels):
                         labels,
                         epochs=25,
                         callbacks=[tensorboard_callback])
-    model.summary()
 
     return model
 
@@ -115,6 +114,7 @@ def exist_weights():
 
 # Load the trainingset from local filesystem
 def get_traingset(data_path):
+
     # Load image from local file system
     data_dir = pathlib.Path(data_path)
     data_dir = pathlib.Path(data_dir)
@@ -148,10 +148,10 @@ def get_traingset(data_path):
 
     train_images, train_labels = next(train_data_gen)
 
-    # remoge comment to see some TS images
+    # Remoge comment to see some TS images
     #plotImages(train_images[:5])
 
-    # Convert the oneshot label vector to classes vectors
+    # Convert the one shot label vector to classes vectors
     # PLEASE find a more elegant way
     vector_classes = np.argmax(train_labels, axis=1)
 
@@ -197,24 +197,24 @@ def load_image(data_path):
     IMG_HEIGHT = 64
     IMG_WIDTH = 64
 
-    #Load image by OpenCV
+    # Load image by OpenCV
     img = cv2.imread(data_path)
 
-    #Resize to respect the input_shape
+    # Resize to respect the input_shape
     inp = cv2.resize(img, (IMG_HEIGHT, IMG_HEIGHT))
 
-    #Convert img to RGB
+    # Convert img to RGB
     rgb = cv2.cvtColor(inp, cv2.COLOR_BGR2RGB)
 
-    #Is optional but i recommend (float convertion and convert img to tensor image)
+    # Is optional but i recommend (float convertion and convert img to tensor image)
     rgb_tensor = tf.convert_to_tensor(rgb, dtype=tf.float32)
 
-    #Add dims to rgb_tensor
+    # Add dims to rgb_tensor
     rgb_tensor = tf.expand_dims(rgb_tensor, 0)
 
-    #Now you can use rgb_tensor to predict label for exemple :
+    # Now you can use rgb_tensor to predict label for exemple :
 
-    #Predict label
+    #P redict label
     return rgb_tensor
 
 
@@ -275,7 +275,7 @@ def scan_local(data_path, log_path='c:/log/'):
     evaluate_images = load_image('E:\\Data\\UTU\\evaluate\\eval\\1.jpg')
     predictions = model.predict(evaluate_images)
 
-    #save prediction on file
+    # Save prediction on file
     save_result(predictions)
 
 

@@ -76,8 +76,8 @@ train_data_gen = image_generator.flow_from_directory(directory=str(data_dir),
 
 train_images, train_labels = next(train_data_gen)
 
-# convert the oneshot label vector to classes
-# please find a more elegant way
+# Convert the oneshot label vector to classes
+# Please find a more elegant way
 vector_classes = np.argmax(train_labels, axis=1)
 
 vector_classes_list = []

@@ -55,11 +55,11 @@ with tf.device('/GPU:0'):
                   loss='mean_squared_error',
                   metrics=['accuracy'])
 
+    # Display the model structure
+    model.summary()                  
+
     # Instruct the code
     model.fit(model_data, model_value, callbacks=callbacks, epochs=500)
-
-    # Display the model structure
-    model.summary()
 
     # Evaluate a sample using the model
     print('The predicted result is: %f' % model.predict([70.0]))

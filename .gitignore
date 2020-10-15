@@ -134,3 +134,4 @@ dmypy.json
 # Model ad result files
 *.csv
 model/
+converted_model.tflite

@@ -4,6 +4,8 @@ This repo is a Tensorflow course starting from scratch. The ***inspiration*** co
 > - [Aymeric Damien](https://github.com/aymericdamien)
 > - [YunYang1994](https://github.com/YunYang1994)
 > - [zzh8829](https://github.com/zzh8829)
+> - [Anton Mu](https://github.com/AntonMu)
+
 
 
 ## Prerequisites
@@ -117,3 +119,18 @@ conda install git
 then:
 pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
 ```
+
+
+
+# How to use AWS EC2 intances
+
+
+Connect to AWS
+Select the environment 
+Update the system and clone the repo 
+``` cmd
+
+sudo apt-get update
+git clone https://github.com/AntonMu/TrainYourOwnYOLO.git
+```
+

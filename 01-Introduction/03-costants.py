@@ -13,6 +13,7 @@ import tensorflow as tf
 
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
+
 # Create a tensor as a vector (one dimension)
 vector_a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
 print(vector_a)

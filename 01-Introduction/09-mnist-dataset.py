@@ -39,7 +39,7 @@ x_train, x_test = x_train / 255.0, x_test / 255.0
 print('x_train: %s' % x_train)
 print('y_train: %s' % y_train)
 
-# Use the matplotlib to sho the first trainingset sample
+# Use the matplotlib to show the first trainingset sample
 plt.figure()
 plt.imshow(x_train[0])
 plt.colorbar()

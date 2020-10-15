@@ -3,7 +3,7 @@
 Created on Sat Apr 11 15:35:00 2020
 
 @author:       Genocs
-@description:  This test check-out if tensorflow is installed with the GPU support 
+@description:  This test check if tensorflow is installed with the GPU support 
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals

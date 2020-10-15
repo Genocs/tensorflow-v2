@@ -4,7 +4,9 @@ Created on Sat Apr 11 16:20:00 2020
 
 @author:       Genocs
 @description:  In this exercise we are going to load the trainingset from a csv file
-               using Pandas dataframe
+               using Pandas dataframe. The model will be saved for future evaluation.
+               Whenever running an instance and a model is detected no training is 
+               executed and the existing model is loaded.
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -59,7 +61,7 @@ def main(args=""):
 
     # Build the model
     model = build_model()
-    model = instruct_model(model, samples, labels)
+    model = load_or_instruct_model(model, samples, labels)
 
     # Evaluate a sample using the model
     print(model.predict([3.0]))
@@ -97,7 +99,8 @@ def build_model():
 
     # It defines the model type
     model = tf.keras.Sequential()
-    # Adds a densely-connected layer with 1 unit to the model:
+
+    # Adds a densely-connected layer with 1 unit
     model.add(layers.Dense(units=1, input_shape=[1]))
 
     model.compile(optimizer='sgd',
@@ -111,11 +114,11 @@ def build_model():
 
 
 """
-*** This function loadad the model if exist, otherwise start a new one trainig and the save the weights
+*** This function load the model if exist, otherwise start a new one trainig and the save the weights
 """
 
 
-def instruct_model(model, samples, labels):
+def load_or_instruct_model(model, samples, labels):
     model_dir = ".\\model\\"
 
     if os.path.isdir(model_dir):
