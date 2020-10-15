@@ -1,6 +1,7 @@
 # tensorflow-v2
 
 This repo is a Tensorflow course starting from scratch. The ***inspiration*** coming from awesome guys to whom I say thanks a lot.
+> - [AntonMu](https://github.com/AntonMu/TrainYourOwnYOLO)
 > - [Aymeric Damien](https://github.com/aymericdamien)
 > - [YunYang1994](https://github.com/YunYang1994)
 > - [zzh8829](https://github.com/zzh8829)
