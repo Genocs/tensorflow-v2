@@ -9,6 +9,7 @@ Created on Sun Apr 12 10:40:00 2020
 			   - TensorFlow
                - Pillow
                - matplotlib
+               - OpenCV
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals

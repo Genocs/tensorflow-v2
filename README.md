@@ -46,7 +46,7 @@ Please check:
 #### 2 - Keras - The models
 - **04-linear-model.py**: The basic linear model.
 - **05-tensorboard.py**: How write trace to Tensorboard.
-- **06-linear-model-class.py**: The same linear model with Tensorboard but embedded in a Python class.
+- **06-load-traininset.py**: Load the trainingset data from csv file.
 - **07-save-weights.py**: How to save the training weights and load it when available.
 - **08-use-model-class.py**: Complete example to training, save the weights and load it if present.
 
@@ -54,6 +54,11 @@ Please check:
 - **09-mnist-dataset.py**: The helloworld MINIST dataset.
 - **10-cifar-dataset.py**: The CIFAR-10 dataset.
 
+#### 4 - Images Datasets
+- **11-images-dataset.py**: Run CNN on images classified by folder name.
+- **12-images-dataset-cache.py**: Same as the above test!!!
+- **13-images-dataset-local.py**: Same as the above but from local folder
+- **14-convert-to-tensorflow-lite.py**: Convert the model to tensorflow lite model available to be used on mobile device
 
 
 
@@ -117,14 +122,10 @@ https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc
 
 ``` cmd
 conda install git
-then:
 pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
 ```
 
-
-
 # How to use AWS EC2 intances
-
 
 Connect to AWS
 Select the environment 

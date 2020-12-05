@@ -86,7 +86,7 @@ def run_training(model, samples, labels):
 
     with tf.device('/GPU:0'):
         # Instruct the model
-        model.fit(samples, labels, callbacks=callbacks, epochs=5)
+        model.fit(samples, labels, callbacks=callbacks, epochs=50)
         return model
 
 
@@ -120,18 +120,22 @@ def build_model():
 
 def load_or_instruct_model(model, samples, labels):
     model_dir = ".\\model\\"
+    model_weights_path = model_dir + "weights.tf"
 
     if os.path.isdir(model_dir):
         print('Found model.')
         print('Loading weights ...')
         print('NO Training required')
-        model.load_weights(model_dir + "model.tf")
+        model.load_weights(model_weights_path)
     else:
         print('Model do not exit!')
         print('A new one training is required!')
         model = run_training(model, samples, labels)
         print('Model weights SAVING... ')
-        model.save_weights(model_dir + "model.tf")
+        model.save_weights(model_weights_path)
+        # Save the model using the tensorflow library, 
+        # so I can use Tensorflow lite Converter. Check #14-convert-totensorflow-lite.py 
+        tf.saved_model.save(model, model_weights_path)
         print('Model weights SAVED SUCCESSFULLY')
 
     return model

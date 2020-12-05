@@ -11,11 +11,24 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # Import TensorFlow
 import tensorflow as tf
 
+# Import utility libraries
+import os
+import pathlib
+
+
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
 
-model_weights_path = ".\\model\\weights.tf"
+model_dir = ".\\model\\"
+model_weights_path = model_dir + "weights.tf"
 
-converter = tf.lite.TFLiteConverter.from_saved_model(model_weights_path)
-tflite_model = converter.convert()
-open("converted_model.tflite", "wb").write(tflite_model)
+
+if os.path.isdir(model_dir):
+  print('Found model\n')
+  print('Start conversion process\n')
+  converter = tf.lite.TFLiteConverter.from_saved_model(model_weights_path)
+  tflite_model = converter.convert()
+  open("converted_model.tflite", "wb").write(tflite_model)
+  print('Conversion completed\n')
+else:
+  print('Missing Model folder\n')

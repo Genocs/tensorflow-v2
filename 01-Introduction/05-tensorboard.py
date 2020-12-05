@@ -3,7 +3,7 @@
 Created on Sat Apr 11 16:20:00 2020
 
 @author:       Genocs
-@description:  Simple linear model y = mx + b. The pipeline logs are written using tensorflow 
+@description:  Simple linear model y = mx + b. The pipeline logs are written using tensorboard 
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals
