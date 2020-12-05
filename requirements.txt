@@ -8,7 +8,7 @@ Pillow==7.2.0
 scipy==1.4.1
 tensorboard==2.2.1
 tensorboard-plugin-wit==1.7.0
-tensorflow==2.2.0
+tensorflow==2.2.1
 tensorflow-estimator==2.2.0
 progressbar2==3.52.1
 pytesseract==0.3.6
