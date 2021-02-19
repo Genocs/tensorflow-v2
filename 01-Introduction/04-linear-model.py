@@ -28,6 +28,17 @@ model_data = np.array([-1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0], dtype=float)
 model_value = np.array([-3.0, -1.0, 1.0, 3.0, 5.0, 7.0, 9.0, 11.0],
                        dtype=float)
 
+# 0 is the mean of the normal distribution you are choosing from
+# 1 is the standard deviation of the normal distribution
+# 100 is the number of elements you get in array noise
+noise = np.random.normal(0, 1, 100)
+
+# Create a sequence from 1 to 100 step 1
+model_data = np.arange(start=0, stop=100, step=1)
+
+model_value = model_data + noise
+
+
 with tf.device('/GPU:0'):
 
     # Define the model type
@@ -37,7 +48,7 @@ with tf.device('/GPU:0'):
     model.add(layers.Dense(units=1, input_shape=[1]))
 
     # Build the model pipeline
-    model.compile(optimizer='sgd',
+    model.compile(optimizer='adam',
                   loss='mean_squared_error',
                   metrics=['accuracy'])
 

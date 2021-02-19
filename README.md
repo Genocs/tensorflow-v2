@@ -62,12 +62,14 @@ Please check:
 
 
 
-##How to install from scratch
+## How to install from scratch
 
 
 Nvidia GPU support
-cuda_10.1.105_418.96_win10.exe
-cudnn-10.1-windows10-x64-v7.6.5.32.zip
+CUDA Toolkit 11.2 Update 1 Downloads cuda_11.2.1_461.09_win10.exe
+Download cuDNN v8.1.0 (January 26th, 2021), for CUDA 11.0,11.1 and 11.2 cudnn-11.2-windows-x64-v8.1.0.77.zip
+
+
 python-3.7.9.exe (DO not use python-3.8.5.exe)
 
 - Check Nvidia cuda version
@@ -76,9 +78,10 @@ nvcc --version
 ```
 Checked version:
 nvcc: NVIDIA (R) Cuda compiler driver
-Copyright (c) 2005-2019 NVIDIA Corporation
-Built on Fri_Feb__8_19:08:26_Pacific_Standard_Time_2019
-Cuda compilation tools, release 10.1, V10.1.105
+Copyright (c) 2005-2021 NVIDIA Corporation
+Built on Thu_Jan_28_19:41:49_Pacific_Standard_Time_2021
+Cuda compilation tools, release 11.2, V11.2.142
+Build cuda_11.2.r11.2/compiler.29558016_0
 
 
 - Preliminary checks
@@ -91,7 +94,7 @@ pip3 --version
 Checked version:
 Python 3.7 (3.7.9)
 Anaconda 4.8.5
-pip 20.1.1
+pip 21.0.1
 
 
 - Create a log folder like **c:\log**
@@ -131,7 +134,6 @@ Connect to AWS
 Select the environment 
 Update the system and clone the repo 
 ``` cmd
-
 sudo apt-get update
 git clone https://github.com/AntonMu/TrainYourOwnYOLO.git
 ```

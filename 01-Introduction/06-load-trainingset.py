@@ -79,7 +79,7 @@ def training_the_model():
                       metrics=['accuracy'])
 
         # Display the model structure
-        model.summary()                      
+        model.summary()
 
         # Instruct the code
         model.fit(model_data, model_value, callbacks=callbacks, epochs=50)

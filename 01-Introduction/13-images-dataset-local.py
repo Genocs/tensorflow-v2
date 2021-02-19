@@ -18,9 +18,9 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import tensorflow as tf
 
 # Import Keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+#from tensorflow.keras.models import Sequential
+#from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
+#from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from tensorflow.keras import datasets, layers, models
 
@@ -36,6 +36,8 @@ import pandas as pd
 import IPython.display as display
 from PIL import Image
 import os
+import glob
+import shutil
 import pathlib
 import datetime
 
@@ -43,8 +45,16 @@ import datetime
 import cv2
 
 
+CLASS_NAMES = ['globalblue_f', 'globalblue_m',
+               'globalblue_t', 'others', 'planet']
+
+IMG_SIZE = 128
+BATCH_SIZE = 256
+
 # Plot images in the form of a grid with 1 row and 5 columns where images are placed in each column.
-def plotImages(images_arr):
+
+
+def plot_images(images_arr):
     fig, axes = plt.subplots(1, 5, figsize=(20, 20))
     axes = axes.flatten()
     for img, ax in zip(images_arr, axes):
@@ -55,33 +65,40 @@ def plotImages(images_arr):
 
 
 def build_model():
+    # Model / data parameters
+    num_classes = 5
+    img_shape = (IMG_SIZE, IMG_SIZE, 3)  # (IMG_WIDTH, IMG_HEIGHT, CHANNELS)
 
-    CHANNELS = 3
-    IMG_HEIGHT = 64
-    IMG_WIDTH = 64
-
-    # Define the  model type
+    # Define the model type
     model = tf.keras.Sequential()
 
     # Define the graph
-    model.add(
-        layers.Conv2D(32, (3, 3),
-                      activation='relu',
-                      input_shape=(IMG_WIDTH, IMG_HEIGHT, CHANNELS),
-                      data_format="channels_last"))
+    model.add(layers.Conv2D(16, (3, 3), activation='relu', padding='same',
+                            input_shape=img_shape, data_format="channels_last"))
+    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
 
+    model.add(layers.Conv2D(32, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
+
     model.add(layers.Conv2D(64, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+
+    model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+    model.add(layers.MaxPooling2D((2, 2)))
+
     model.add(layers.Flatten())
-    model.add(layers.Dense(64, activation='relu'))
-    model.add(layers.Dense(5))
+    model.add(layers.Dropout(0.2))
+    model.add(layers.Dense(512, activation='relu'))
 
-    model.compile(
-        optimizer='adam',
-        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics=['accuracy'])
+    model.add(layers.Dropout(0.2))
+    #model.add(layers.Dense(num_classes))
+
+    model.add(layers.Dense(num_classes, activation='softmax', name='last_dense'))
+
+    model.compile(optimizer='adam',
+                  loss=tf.keras.losses.SparseCategoricalCrossentropy(
+                      from_logits=True),
+                  metrics=['accuracy'])
 
     # Print the model structure
     model.summary()
@@ -89,8 +106,9 @@ def build_model():
     return model
 
 
-def run_training(model, samples, labels):
+def run_training(model, train_data, val_data, labels):
     log_path = 'c:\\log\\'
+    epochs = 10
 
     # Tensorboard trace
     log_dir = log_path + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -98,10 +116,13 @@ def run_training(model, samples, labels):
                                                           histogram_freq=1)
 
     # Instruct the model
-    history = model.fit(samples,
+    history = model.fit(train_data,
                         labels,
-                        epochs=25,
+                        epochs=epochs,
+                        validation_data=val_data,
                         callbacks=[tensorboard_callback])
+
+    plot_history(history, epochs)                        
 
     return model
 
@@ -121,51 +142,45 @@ def get_traingset(data_path):
     data_dir = pathlib.Path(data_dir)
     image_count = len(list(data_dir.glob('*/*.jpg')))
 
+    # Get the class name based on the trainingset folder
+    classes = np.array([item.name for item in data_dir.glob('*')])
+
     # Simple log
     print('data_dir: %s' % data_dir)
     print('image_count: %d' % image_count)
-
-    # Get the class name based on the trainingset folder
-    CLASS_NAMES = np.array([item.name for item in data_dir.glob('*')])
-
-    # Print the class names
-    print('CLASS_NAMES: %s' % CLASS_NAMES)
-
-    BATCH_SIZE = 256
-    IMG_HEIGHT = 64
-    IMG_WIDTH = 64
+    print('dir_classes: %s' % classes)
 
     # Prepare the image dataset generator
     # The 1./255 is to convert from uint8 to float32 in range [0,1].
-    image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
-        rescale=1. / 255)
+    image_gen_train = tf.keras.preprocessing.image.ImageDataGenerator(
+        rescale=1./255,
+        rotation_range=45,
+        width_shift_range=.15,
+        height_shift_range=.15,
+        horizontal_flip=True,
+        zoom_range=0.5
+    )
 
-    train_data_gen = image_generator.flow_from_directory(
-        directory=str(data_dir),
-        batch_size=BATCH_SIZE,
-        shuffle=True,
-        target_size=(IMG_HEIGHT, IMG_WIDTH),
-        classes=list(CLASS_NAMES))
+    train_data_gen = image_gen_train.flow_from_directory(directory=os.path.join(data_dir, 'train'),
+                                                    batch_size=BATCH_SIZE,
+                                                    shuffle=True,
+                                                    target_size=(IMG_SIZE, IMG_SIZE),
+                                                    class_mode='sparse')
 
     train_images, train_labels = next(train_data_gen)
 
-    # Remoge comment to see some TS images
-    #plotImages(train_images[:5])
+    # Remove comment to see some TS images
+    # plotImages(train_images[:5])
 
-    # Convert the one shot label vector to classes vectors
-    # PLEASE find a more elegant way
-    vector_classes = np.argmax(train_labels, axis=1)
+    image_gen_val = tf.keras.preprocessing.image.ImageDataGenerator(
+        rescale=1./255)
 
-    vector_classes_list = []
-    for v in vector_classes:
-        vector_classes_list.append([v])
+    val_data_gen = image_gen_val.flow_from_directory(batch_size=BATCH_SIZE,
+                                                     directory=os.path.join(data_dir, 'val'),
+                                                     target_size=(IMG_SIZE, IMG_SIZE),
+                                                     class_mode='sparse')
 
-    training_label_classes = np.asarray(vector_classes_list, dtype=np.float32)
-
-    print('CLASS_NAMES:')
-    print(training_label_classes)
-
-    return train_images, training_label_classes, CLASS_NAMES
+    return train_images, val_data_gen, train_labels
 
 
 # Load the image to inspect from local filesystem
@@ -174,10 +189,6 @@ def get_images(data_path):
     data_dir = pathlib.Path(data_path)
     data_dir = pathlib.Path(data_dir)
 
-    BATCH_SIZE = 256
-    IMG_HEIGHT = 64
-    IMG_WIDTH = 64
-
     # Prepare the image dataset generator
     # The 1./255 is to convert from uint8 to float32 in range [0,1].
     image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
@@ -187,7 +198,7 @@ def get_images(data_path):
         directory=str(data_dir),
         batch_size=BATCH_SIZE,
         shuffle=True,
-        target_size=(IMG_HEIGHT, IMG_WIDTH))
+        target_size=(IMG_SIZE, IMG_SIZE))
 
     images, labels = next(train_data_gen)
 
@@ -195,14 +206,12 @@ def get_images(data_path):
 
 
 def load_image(data_path):
-    IMG_HEIGHT = 64
-    IMG_WIDTH = 64
 
     # Load image by OpenCV
     img = cv2.imread(data_path)
 
     # Resize to respect the input_shape
-    inp = cv2.resize(img, (IMG_HEIGHT, IMG_HEIGHT))
+    inp = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
 
     # Convert img to RGB
     rgb = cv2.cvtColor(inp, cv2.COLOR_BGR2RGB)
@@ -215,15 +224,12 @@ def load_image(data_path):
 
     # Now you can use rgb_tensor to predict label for exemple :
 
-    #P redict label
+    # P redict label
     return rgb_tensor
 
 
 def save_result(predictions):
     result_filename = '.\\result.csv'
-
-    CLASS_NAMES = np.array(
-        ['globalblue_f', 'globalblue_m', 'globalblue_t', 'others', 'planet'])
 
     df = pd.DataFrame(columns=['Prediction', 'Scores'])
 
@@ -240,6 +246,34 @@ def save_result(predictions):
     df.to_csv(result_filename, index=False)
     print('predict[0]: %s' % CLASS_NAMES[np.argmax(predictions[0])])
     print(predictions)
+
+
+def create_dataset(base_dir):
+
+    # Check if exist the training folder
+    if os.path.exists(os.path.join(base_dir, 'train')):
+        return
+
+    # The class list
+    classes = ['globalblue_f', 'globalblue_m',
+               'globalblue_t', 'others', 'planet']
+
+    for cl in classes:
+        img_path = os.path.join(base_dir, cl)
+        images = glob.glob(img_path + '/*.jpg')
+        print("{}: {} Images".format(cl, len(images)))
+        num_train = int(round(len(images)*0.8))
+        train, val = images[:num_train], images[num_train:]
+
+        for t in train:
+            if not os.path.exists(os.path.join(base_dir, 'train', cl)):
+                os.makedirs(os.path.join(base_dir, 'train', cl))
+            shutil.move(t, os.path.join(base_dir, 'train', cl))
+
+        for v in val:
+            if not os.path.exists(os.path.join(base_dir, 'val', cl)):
+                os.makedirs(os.path.join(base_dir, 'val', cl))
+            shutil.move(v, os.path.join(base_dir, 'val', cl))
 
 
 def scan_local(data_path, log_path='c:/log/'):
@@ -261,26 +295,48 @@ def scan_local(data_path, log_path='c:/log/'):
         print(
             'Model weights LOADED SUCCESSFULLY...  go straight to evaluate!!')
     else:
-        train_images, _labels, _CLASS_NAMES = get_traingset(data_path)
-        model = run_training(model, train_images, _labels)
+        train_images, val_data, labels = get_traingset(data_path)
+        model = run_training(model, train_images, val_data, labels)
         print('Model weights SAVING... ')
         model.save_weights(model_weights_path)
-        # Save the model using the tensorflow library, 
+        # Save the model using the tensorflow library,
         # so I can use Tensorflow lite Converter. Check the next step
         tf.saved_model.save(model, model_weights_path)
         print('Model weights SAVED SUCCESSFULLY')
 
-    CLASS_NAMES = np.array(
-        ['globalblue_f', 'globalblue_m', 'globalblue_t', 'others', 'planet'])
-
-    evaluate_images = load_image('E:\\Data\\UTU\\evaluate\\eval\\1.jpg')
+    evaluate_images = load_image(
+        'E:\\Data\\UTU\\evaluate\\eval\\1.jpg')
     predictions = model.predict(evaluate_images)
 
     # Save prediction on file
     save_result(predictions)
 
+def plot_history(history, epochs):
+    acc = history.history['accuracy']
+    val_acc = history.history['val_accuracy']
+
+    loss = history.history['loss']
+    val_loss = history.history['val_loss']
+
+    epochs_range = range(epochs)
+
+    plt.figure(figsize=(8, 8))
+    plt.subplot(1, 2, 1)
+    plt.plot(epochs_range, acc, label='Training Accuracy')
+    plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+    plt.legend(loc='lower right')
+    plt.title('Training and Validation Accuracy')
+
+    plt.subplot(1, 2, 2)
+    plt.plot(epochs_range, loss, label='Training Loss')
+    plt.plot(epochs_range, val_loss, label='Validation Loss')
+    plt.legend(loc='upper right')
+    plt.title('Training and Validation Loss')
+    plt.show()    
+
 
 def main():
+    # create_dataset(base_dir='E:\\Data\\UTU\\directinvoice_img')
     scan_local(data_path='E:\\Data\\UTU\\directinvoice_img')
 
 

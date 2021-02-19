@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 print('Tensorflow version: %s' % tf.__version__)
 
 # Get the dataset
-mnist = tf.keras.datasets.fashion_mnist
+mnist = tf.keras.datasets.mnist
 
 # Load the feature and label, splitted by training_set and test_set
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -68,7 +68,17 @@ model.compile(optimizer=tf.keras.optimizers.Adam(0.01),
               metrics=['accuracy'])
 
 # Fit the model
-model.fit(x_train, y_train, epochs=5)
+res = model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=5)
+
+# Plot the loss result over the training process
+plt.plot(res.history['loss'], label='loss')
+plt.plot(res.history['val_loss'], label='val_loss')
+plt.legend()
+
+# Plot the accuracy result over the training process
+plt.plot(res.history['accuracy'], label='accuracy')
+plt.plot(res.history['val_accuracy'], label='val_accuracy')
+plt.legend()
 
 # Evaluate it
 model.evaluate(x_test, y_test, verbose=2)
@@ -80,3 +90,12 @@ predictions = model.predict(x_test)
 num_bins = 10
 plt.hist(predictions[0], num_bins, facecolor='blue', alpha=0.5)
 plt.show()
+
+
+def plot_confusion_matrix(cm, classes, normalize=False,
+                            title='Confusion matrix',
+                            cmap=plt.cm.Blues):
+    """
+    This function print and plots the confusion matrix.
+    Normalization can be applyed by settings 'normalize'=True
+    """
