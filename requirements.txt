@@ -14,3 +14,4 @@ progressbar2==3.53.1
 pytesseract==0.3.7
 ipython==7.20.0
 tflite-support==0.1.0
+
