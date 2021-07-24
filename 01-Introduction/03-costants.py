@@ -18,7 +18,7 @@ print('Tensorflow version: %s' % tf.__version__)
 vector_a = tf.constant([1.0, 2.0, 3.0, 4.0, 5.0, 6.0])
 print(vector_a)
 
-# Create a tensor as a matrix (two dimensions) layout: 3x2
+# Create a tensor as a matrix (two dimensions) shape: 3x2
 matrix_b = tf.constant([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
 print(matrix_b)
 
@@ -30,6 +30,6 @@ m_b = tf.constant([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
 m_ba = tf.matmul(m_b, m_a)
 print(m_ba)
 
-# Matrix multiply (m_a * m_b) different from the previous ones
+# Matrix multiply (m_a * m_b) from math matrix multiply is not an invertible function
 m_ab = tf.matmul(m_a, m_b)
 print(m_ab)

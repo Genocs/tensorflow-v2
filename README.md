@@ -11,7 +11,7 @@ This repo is a Tensorflow course starting from scratch. The ***inspiration*** co
 
 ## Prerequisites
 
-Python environment must be present and correctly configured in order o use these exercises.
+Python environment is required and correctly configured in order o use these exercises.
 
 Please check:
 * [Anaconda](https://www.continuum.io).
@@ -92,16 +92,16 @@ pip3 --version
 ```
 
 Checked version:
-Python 3.7 (3.7.9)
-Anaconda 4.8.5
-pip 21.0.1
+Python 3.9 (3.9.5)
+Anaconda 4.10.3
+pip 21.1.3
 
 
 - Create a log folder like **c:\log**
 
 - Create the conda environment
 ``` cmd
-conda create --name tensorflow python=3.7
+conda create --name tensorflow python=3.9
 conda activate tensorflow
 conda install git
 python -m pip install --upgrade pip
@@ -114,7 +114,7 @@ pip install -r requirements.txt
 ```
 
 Open a web browser
-localhost:6006
+http://localhost:6006
 
 
 # Tips and Tricks
