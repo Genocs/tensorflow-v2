@@ -11,9 +11,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # Import TensorFlow
 import tensorflow as tf
 
-# Import Keras
-from tensorflow import keras
-
 # Import Keras layers
 from tensorflow.keras import layers
 
@@ -21,8 +18,6 @@ from tensorflow.keras import layers
 import numpy as np
 
 # Import utility libraries
-import os
-import pathlib
 import datetime
 
 # Check the Tensorflow version
@@ -43,7 +38,6 @@ callbacks = [
 ]
 
 with tf.device('/GPU:0'):
-
     # Define the model type
     model = tf.keras.Sequential()
 
@@ -56,7 +50,7 @@ with tf.device('/GPU:0'):
                   metrics=['accuracy'])
 
     # Display the model structure
-    model.summary()                  
+    model.summary()
 
     # Instruct the code
     model.fit(model_data, model_value, callbacks=callbacks, epochs=500)

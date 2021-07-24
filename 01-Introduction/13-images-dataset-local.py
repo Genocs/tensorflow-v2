@@ -18,9 +18,9 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import tensorflow as tf
 
 # Import Keras
-#from tensorflow.keras.models import Sequential
-#from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
-#from tensorflow.keras.preprocessing.image import ImageDataGenerator
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
+# from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from tensorflow.keras import datasets, layers, models
 
@@ -44,12 +44,12 @@ import datetime
 # Import python openCV
 import cv2
 
-
 CLASS_NAMES = ['globalblue_f', 'globalblue_m',
                'globalblue_t', 'others', 'planet']
 
 IMG_SIZE = 128
 BATCH_SIZE = 256
+
 
 # Plot images in the form of a grid with 1 row and 5 columns where images are placed in each column.
 
@@ -91,7 +91,7 @@ def build_model():
     model.add(layers.Dense(512, activation='relu'))
 
     model.add(layers.Dropout(0.2))
-    #model.add(layers.Dense(num_classes))
+    # model.add(layers.Dense(num_classes))
 
     model.add(layers.Dense(num_classes, activation='softmax', name='last_dense'))
 
@@ -122,7 +122,7 @@ def run_training(model, train_data, val_data, labels):
                         validation_data=val_data,
                         callbacks=[tensorboard_callback])
 
-    plot_history(history, epochs)                        
+    plot_history(history, epochs)
 
     return model
 
@@ -136,7 +136,6 @@ def exist_weights():
 
 # Load the trainingset from local filesystem
 def get_traingset(data_path):
-
     # Load image from local file system
     data_dir = pathlib.Path(data_path)
     data_dir = pathlib.Path(data_dir)
@@ -153,7 +152,7 @@ def get_traingset(data_path):
     # Prepare the image dataset generator
     # The 1./255 is to convert from uint8 to float32 in range [0,1].
     image_gen_train = tf.keras.preprocessing.image.ImageDataGenerator(
-        rescale=1./255,
+        rescale=1. / 255,
         rotation_range=45,
         width_shift_range=.15,
         height_shift_range=.15,
@@ -162,10 +161,10 @@ def get_traingset(data_path):
     )
 
     train_data_gen = image_gen_train.flow_from_directory(directory=os.path.join(data_dir, 'train'),
-                                                    batch_size=BATCH_SIZE,
-                                                    shuffle=True,
-                                                    target_size=(IMG_SIZE, IMG_SIZE),
-                                                    class_mode='sparse')
+                                                         batch_size=BATCH_SIZE,
+                                                         shuffle=True,
+                                                         target_size=(IMG_SIZE, IMG_SIZE),
+                                                         class_mode='sparse')
 
     train_images, train_labels = next(train_data_gen)
 
@@ -173,7 +172,7 @@ def get_traingset(data_path):
     # plotImages(train_images[:5])
 
     image_gen_val = tf.keras.preprocessing.image.ImageDataGenerator(
-        rescale=1./255)
+        rescale=1. / 255)
 
     val_data_gen = image_gen_val.flow_from_directory(batch_size=BATCH_SIZE,
                                                      directory=os.path.join(data_dir, 'val'),
@@ -206,7 +205,6 @@ def get_images(data_path):
 
 
 def load_image(data_path):
-
     # Load image by OpenCV
     img = cv2.imread(data_path)
 
@@ -233,7 +231,7 @@ def save_result(predictions):
 
     df = pd.DataFrame(columns=['Prediction', 'Scores'])
 
-    if (os.path.exists(result_filename)):
+    if os.path.exists(result_filename):
         df = pd.read_csv(result_filename)
 
     df = df.append(
@@ -249,7 +247,6 @@ def save_result(predictions):
 
 
 def create_dataset(base_dir):
-
     # Check if exist the training folder
     if os.path.exists(os.path.join(base_dir, 'train')):
         return
@@ -262,7 +259,7 @@ def create_dataset(base_dir):
         img_path = os.path.join(base_dir, cl)
         images = glob.glob(img_path + '/*.jpg')
         print("{}: {} Images".format(cl, len(images)))
-        num_train = int(round(len(images)*0.8))
+        num_train = int(round(len(images) * 0.8))
         train, val = images[:num_train], images[num_train:]
 
         for t in train:
@@ -288,8 +285,8 @@ def scan_local(data_path, log_path='c:/log/'):
     # Build the model graph
     model = build_model()
 
-    # Check if the weights exist and if dont than go to training the model and save it
-    if (exist_weights()):
+    # Check if the weights exist and if don't than go to training the model and save it
+    if exist_weights():
         print('Found model weights, NO Training required. Loading...')
         model.load_weights(model_weights_path)
         print(
@@ -310,6 +307,7 @@ def scan_local(data_path, log_path='c:/log/'):
 
     # Save prediction on file
     save_result(predictions)
+
 
 def plot_history(history, epochs):
     acc = history.history['accuracy']
@@ -332,7 +330,7 @@ def plot_history(history, epochs):
     plt.plot(epochs_range, val_loss, label='Validation Loss')
     plt.legend(loc='upper right')
     plt.title('Training and Validation Loss')
-    plt.show()    
+    plt.show()
 
 
 def main():

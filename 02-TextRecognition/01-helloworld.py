@@ -14,16 +14,16 @@ import numpy as np
 # Import OpenCV
 import cv2
 
-# Import matplot lib
+# Import matplotlib lib
 import matplotlib.pyplot as plt
 
-# Import Tesseract
+# Import Tesseracts
 import pytesseract
 
 # Import utility libraries
-import os
-import pathlib
-from datetime import datetime
+import datetime
+import time
+
 
 # get grayscale image
 def get_grayscale(image):
@@ -35,37 +35,37 @@ def remove_noise(image):
     return cv2.medianBlur(image, 5)
 
 
-#thresholding
+# thresholding
 def thresholding(image):
     # threshold the image, setting all foreground pixels to
     # 255 and all background pixels to 0
     return cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 
 
-#dilation
+# dilation
 def dilate(image):
     kernel = np.ones((5, 5), np.uint8)
     return cv2.dilate(image, kernel, iterations=1)
 
 
-#erosion
+# erosion
 def erode(image):
     kernel = np.ones((5, 5), np.uint8)
     return cv2.erode(image, kernel, iterations=1)
 
 
-#opening - erosion followed by dilation
+# opening - erosion followed by dilation
 def opening(image):
     kernel = np.ones((5, 5), np.uint8)
     return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
 
 
-#canny edge detection
+# canny edge detection
 def canny(image):
     return cv2.Canny(image, 100, 200)
 
 
-#skew correction
+# skew correction
 def deskew(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     gray = cv2.bitwise_not(gray)
@@ -87,13 +87,12 @@ def deskew(image):
     return rotated
 
 
-#template matching
+# template matching
 def match_template(image, template):
     return cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
 
 
 def show_images(images, cols=1, titles=None):
-
     assert ((titles is None) or (len(images) == len(titles)))
     n_images = len(images)
     if titles is None:
@@ -108,19 +107,18 @@ def show_images(images, cols=1, titles=None):
     fig.set_size_inches(np.array(fig.get_size_inches()) * n_images)
     plt.show()
 
-import datetime
-import time
+
 t1 = time.time()
 
 img = cv2.imread('.\\data\\image.jpg')
 
 gray = get_grayscale(deskew(img))
-#thresh = thresholding(gray)
-#rnoise = remove_noise(thresh)
-#dilate = dilate(thresh)
-#erode = erode(gray)
-#opening = opening(gray)
-#canny = canny(thresh)
+# thresh = thresholding(gray)
+# rnoise = remove_noise(thresh)
+# dilate = dilate(thresh)
+# erode = erode(gray)
+# opening = opening(gray)
+# canny = canny(thresh)
 
 h, w = gray.shape
 
@@ -132,19 +130,17 @@ result = pytesseract.image_to_string(img, config=custom_config)
 
 t2 = time.time()
 
-#get the difference as datetime.timedelta object
-diff=(datetime.datetime.fromtimestamp(t1) - datetime.datetime.fromtimestamp(t2))
+# get the difference as datetime.timedelta object
+diff = (datetime.datetime.fromtimestamp(t1) - datetime.datetime.fromtimestamp(t2))
 print('Result is: %s' % result)
-#diff is negative as t2 is in the future compared to t2
+# diff is negative as t2 is in the future compared to t2
 print('difference is {0} seconds'.format(abs(diff.total_seconds())))
-
-
 
 for b in boxes.splitlines():
     b = b.split(' ')
     gray = cv2.rectangle(gray, (int(b[1]), h - int(b[2])), (int(b[3]), h - int(b[4])), (255, 255, 255), 1)
 
-#for b in boxes.splitlines():
+# for b in boxes.splitlines():
 #    b = b.split(' ')
 #    # text 
 #    text = b[0]
@@ -166,7 +162,6 @@ for b in boxes.splitlines():
 #    gray = cv2.putText(gray, text, org, font, fontScale, color, thickness, cv2.LINE_AA) 
 
 
-
 # Use the matplotlib to sho the first trainingset sample
 plt.figure()
 plt.imshow(gray)
@@ -174,6 +169,6 @@ plt.colorbar()
 plt.grid(False)
 plt.show()
 
-#cv2.imshow('img', canny)
-#images = [gray, thresh, rnoise, canny]
-#show_images(images, 3, ["gray", "thresh", "rnoise", "canny"])
+# cv2.imshow('img', canny)
+# images = [gray, thresh, rnoise, canny]
+# show_images(images, 3, ["gray", "thresh", "rnoise", "canny"])

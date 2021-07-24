@@ -11,14 +11,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # Import TensorFlow
 import tensorflow as tf
 
-# Import Keras
-from tensorflow import keras
-
 # Import Keras layers
 from tensorflow.keras import layers
-
-# Import numpy
-import numpy as np
 
 # Import Math plot lib
 import matplotlib.pyplot as plt
@@ -93,9 +87,9 @@ plt.show()
 
 
 def plot_confusion_matrix(cm, classes, normalize=False,
-                            title='Confusion matrix',
-                            cmap=plt.cm.Blues):
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
     """
     This function print and plots the confusion matrix.
-    Normalization can be applyed by settings 'normalize'=True
+    Normalization can be applied by settings 'normalize'=True
     """

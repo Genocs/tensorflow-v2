@@ -7,16 +7,15 @@ Created on Sun Apr 12 10:40:00 2020
                stored as images folder
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
 import tensorflow as tf
 
 # Import Keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
+# from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from tensorflow.keras import datasets, layers, models
 
@@ -26,19 +25,17 @@ import numpy as np
 # Import Math plot lib
 import matplotlib.pyplot as plt
 
-import IPython.display as display
-from PIL import Image
-import os
 import pathlib
 
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
 
 """
-Get a public trainingset 
+Get a public training-set 
 """
-data_dir = tf.keras.utils.get_file(origin='https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz',
-                                   fname='flower_photos', untar=True)
+data_dir = tf.keras.utils.get_file(
+    origin='https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz',
+    fname='flower_photos', untar=True)
 data_dir = pathlib.Path(data_dir)
 image_count = len(list(data_dir.glob('*/*.jpg')))
 
@@ -57,15 +54,16 @@ def plotImages(images_arr):
     plt.tight_layout()
     plt.show()
 
+
 # The 1./255 is to convert from uint8 to float32 in range [0,1].
 image_generator = tf.keras.preprocessing.image.ImageDataGenerator(
-    rescale=1./255)
+    rescale=1. / 255)
 
 BATCH_SIZE = 2048
 CHANNELS = 3
 IMG_HEIGHT = 32
 IMG_WIDTH = 32
-STEPS_PER_EPOCH = np.ceil(image_count/BATCH_SIZE)
+STEPS_PER_EPOCH = np.ceil(image_count / BATCH_SIZE)
 
 train_data_gen = image_generator.flow_from_directory(directory=str(data_dir),
                                                      batch_size=BATCH_SIZE,
@@ -76,17 +74,15 @@ train_data_gen = image_generator.flow_from_directory(directory=str(data_dir),
 
 train_images, train_labels = next(train_data_gen)
 
-# Convert the oneshot label vector to classes
+# Convert the one-shoot label vector to classes
 # Please find a more elegant way
 vector_classes = np.argmax(train_labels, axis=1)
 
 vector_classes_list = []
-for v in vector_classes: 
+for v in vector_classes:
     vector_classes_list.append([v])
 
 training_label_classes = np.asarray(vector_classes_list, dtype=np.float32)
-
-
 
 # Define the model type
 model = models.Sequential()
@@ -102,7 +98,7 @@ model.add(layers.Dense(5))
 # Compile the model
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(
-              from_logits=True),
+                  from_logits=True),
               metrics=['accuracy'])
 
 # Fit the model
@@ -115,4 +111,3 @@ print('predict[0]: %s' % CLASS_NAMES[np.argmax(predictions[0])])
 print('predict[1]: %s' % CLASS_NAMES[np.argmax(predictions[1])])
 
 plotImages(train_images[:2])
-

@@ -13,9 +13,9 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import tensorflow as tf
 
 # Import Keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Conv2D, Flatten, Dropout, MaxPooling2D
+# from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 from tensorflow.keras import datasets, layers, models
 
@@ -25,10 +25,6 @@ import numpy as np
 # Import Math plot lib
 import matplotlib.pyplot as plt
 
-import IPython.display as display
-from PIL import Image
-import os
-import pathlib
 
 # Check the Tensorflow version
 print('Tensorflow version: %s' % tf.__version__)
@@ -40,8 +36,8 @@ print('Tensorflow version: %s' % tf.__version__)
 # Normalize pixel values to be between 0 and 1
 train_images, test_images = train_images / 255.0, test_images / 255.0
 
-# Simple logdump
-#print('train_images: %s' % train_images)
+# Simple log
+# print('train_images: %s' % train_images)
 print('train_labels: %s' % train_labels)
 
 
@@ -56,7 +52,7 @@ def plotImages(images_arr):
     plt.show()
 
 
-#plotImages(train_images[:5])
+# plotImages(train_images[:5])
 
 # Define the model type
 model = models.Sequential()

@@ -6,7 +6,6 @@ Created on Sat Apr 11 16:30:00 2020
 @description:  Simple linear model y = mx + b. The pipeline logs are written using tensorflow 
 """
 
-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 # Import TensorFlow
@@ -18,17 +17,15 @@ from tensorflow import keras
 # Import Keras layers
 from tensorflow.keras import layers
 
-# Import numpy
-import numpy as np
-
 # Import utility libraries
 import os
-import pathlib
 import datetime
 
 """
 This class defines a very simple linear model
 """
+
+
 class LinearModel(keras.Model):
 
     def __init__(self, name=None):
@@ -36,8 +33,8 @@ class LinearModel(keras.Model):
         self.dense_1 = layers.Dense(units=1, input_shape=[1], name='dense_1')
 
     def call(self, inputs):
-        #x = self.dense_1(inputs)
-        #x = self.dense_2(x)
+        # x = self.dense_1(inputs)
+        # x = self.dense_2(x)
         # return self.pred_layer(x)
         return self.dense_1(inputs)
 
@@ -70,7 +67,7 @@ class LinearModel(keras.Model):
                     log_dir=log_dir, histogram_freq=1)
             ]
 
-            with tf.device('/GPU:0'):                
+            with tf.device('/GPU:0'):
                 # Instruct the model
                 self.fit(model_data, model_value, callbacks=callbacks, epochs=5)
                 self.summary()
@@ -79,6 +76,4 @@ class LinearModel(keras.Model):
             self.save_weights(model_dir + "model.tf")
             print('Model weights SAVED SUCCESSFULLY')
 
-        return self  
-
-
+        return self

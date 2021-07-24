@@ -14,18 +14,11 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # Import TensorFlow
 import tensorflow as tf
 
-# Import Keras
-from tensorflow import keras
-
 # Import Keras layers
 from tensorflow.keras import layers
 
-# Import numpy
-import numpy as np
-
 # Import utility libraries
 import os
-import pathlib
 import datetime
 
 # Import pandas to read csv files
@@ -46,7 +39,7 @@ def load_trainingset():
     labels = labels.to_numpy()
     print(samples[0])
     print(labels[0])
-    return (samples[0], labels[0])
+    return samples[0], labels[0]
 
 
 """

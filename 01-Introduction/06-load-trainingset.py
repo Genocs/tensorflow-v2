@@ -12,18 +12,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # Import TensorFlow
 import tensorflow as tf
 
-# Import Keras
-from tensorflow import keras
-
 # Import Keras layers
 from tensorflow.keras import layers
 
-# Import numpy
-import numpy as np
-
 # Import utility libraries
-import os
-import pathlib
 import datetime
 
 # Import pandas to read csv files
@@ -44,7 +36,7 @@ def load_trainingset():
     labels = labels.to_numpy()
     print(samples[0])
     print(labels[0])
-    return (samples[0], labels[0])
+    return samples[0], labels[0]
 
 
 """
@@ -66,7 +58,6 @@ def training_the_model():
     ]
 
     with tf.device('/GPU:0'):
-
         # Define the model type
         model = tf.keras.Sequential()
 
@@ -93,7 +84,7 @@ def training_the_model():
 """
 
 
-def main(args=""):
+def main():
     print("main started")
     training_the_model()
     print("main finish")

@@ -11,9 +11,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # Import TensorFlow
 import tensorflow as tf
 
-# Import Keras
-from tensorflow import keras
-
 # Import Keras layers
 from tensorflow.keras import layers
 
@@ -32,12 +29,6 @@ model_value = np.array([-3.0, -1.0, 1.0, 3.0, 5.0, 7.0, 9.0, 11.0],
 # 1 is the standard deviation of the normal distribution
 # 100 is the number of elements you get in array noise
 noise = np.random.normal(0, 1, 100)
-
-# Create a sequence from 1 to 100 step 1
-model_data = np.arange(start=0, stop=100, step=1)
-
-model_value = model_data + noise
-
 
 with tf.device('/GPU:0'):
 
