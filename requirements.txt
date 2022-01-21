@@ -12,5 +12,5 @@ tensorflow==2.5.2
 tensorflow-estimator==2.5.0
 progressbar2==3.53.1
 pytesseract==0.3.8
-ipython==7.20.0
+ipython==7.31.1
 tflite-support==0.2.0
