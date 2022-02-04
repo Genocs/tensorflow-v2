@@ -64,43 +64,40 @@ Please check:
 
 ## How to install from scratch
 
-
 Nvidia GPU support
-CUDA Toolkit 11.2 Update 1 Downloads cuda_11.2.1_461.09_win10.exe
-Download cuDNN v8.1.0 (January 26th, 2021), for CUDA 11.0,11.1 and 11.2 cudnn-11.2-windows-x64-v8.1.0.77.zip
+CUDA Toolkit 11.6 Update 1 Downloads cuda_11.6.0_511.23_windows
+Download cuDNN v8.3.2 (January 26th, 2021), for CUDA 11.0,11.1 and 11.2 cudnn-windows-x86_64-8.3.2.44_cuda11.5-archive
 
-
-python-3.7.9.exe (DO not use python-3.8.5.exe)
+python-3.9.7.exe (DO not use python-3.8.5.exe)
 
 - Check Nvidia cuda version
-``` cmd
+``` sh
 nvcc --version
 ```
 Checked version:
 nvcc: NVIDIA (R) Cuda compiler driver
 Copyright (c) 2005-2021 NVIDIA Corporation
-Built on Thu_Jan_28_19:41:49_Pacific_Standard_Time_2021
-Cuda compilation tools, release 11.2, V11.2.142
-Build cuda_11.2.r11.2/compiler.29558016_0
+Built on Fri_Dec_17_18:28:54_Pacific_Standard_Time_2021
+Cuda compilation tools, release 11.6, V11.6.55
+Build cuda_11.6.r11.6/compiler.30794723_0
 
 
-- Preliminary checks
-``` cmd
+## Preliminary checks
+``` sh
 python --version
 conda --version
 pip3 --version
+
+# Checked version:
+Python 3.9 (3.9.7)
+conda 4.10.3
+pip 22.0.3
 ```
-
-Checked version:
-Python 3.9 (3.9.5)
-Anaconda 4.10.3
-pip 21.1.3
-
 
 - Create a log folder like **c:\log**
 
 - Create the conda environment
-``` cmd
+``` sh
 conda create --name tensorflow python=3.9
 conda activate tensorflow
 conda install git
@@ -109,7 +106,7 @@ pip install -r requirements.txt
 ```
 
 - Run tensorboard
-``` cmd
+``` sh
 (tensorflow) tensorboard --logdir=c:\log --port 6006
 ```
 
@@ -123,7 +120,7 @@ https://github.com/tensorflow/models
 
 https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 
-``` cmd
+``` sh
 conda install git
 pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI"
 ```
@@ -133,7 +130,7 @@ pip3 install "git+https://github.com/philferriere/cocoapi.git#egg=pycocotools&su
 Connect to AWS
 Select the environment 
 Update the system and clone the repo 
-``` cmd
+``` sh
 sudo apt-get update
 git clone https://github.com/AntonMu/TrainYourOwnYOLO.git
 ```

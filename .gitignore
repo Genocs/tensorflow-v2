@@ -138,3 +138,5 @@ dmypy.json
 *.csv
 model/
 converted_model.tflite
+
+.idea
